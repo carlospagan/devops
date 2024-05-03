@@ -1,0 +1,54 @@
+name: Continuous Integration using SAST
+
+on:
+  pull_request :
+    branches: ["main"]     
+
+jobs:    
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout GitHub Action
+        uses: actions/checkout@v3
+       
+      - name: Set up Node.js
+        uses: actions/setup-node@v1
+        with:
+          node-version: 16
+
+      - name: Install ESLint
+        run: npm install eslint@8
+
+      - name: Install Stylelint
+        run: npm install stylelint stylelint-config-standard
+
+      - name: Run linters
+        uses: wearerequired/lint-action@v2
+        with:
+          auto_fix: false
+          eslint: true #js linter
+          prettier: true #js prettier
+          stylelint: true # css linter
+        continue-on-error: true
+        id: eslint 
+        
+      - name: Notify Success
+        if: steps.eslint.outcome == 'success'
+        uses: rjstone/discord-webhook-notify@v1
+        with:
+            username: Octocat
+            avatarUrl: https://octodex.github.com/images/steroidtocat.png
+            severity: info
+            details: CI result was successful and there is no problems with the application!
+            webhookUrl: ${{ secrets.DISCORD_WEBHOOK }}
+
+      - name: Notify Error
+        if: steps.eslint.outcome == 'failure'
+        uses: rjstone/discord-webhook-notify@v1
+        with:
+            username: Octocat
+            avatarUrl: https://octodex.github.com/images/steroidtocat.png
+            severity: error
+            details: CI result has failed, come and check what happened!
+            webhookUrl: ${{ secrets.DISCORD_WEBHOOK }}
