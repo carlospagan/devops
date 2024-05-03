@@ -41,6 +41,7 @@ jobs:
       contents: "read"
       id-token: "write"
       packages: "read"
+      issues: "write"
     env:
       IMAGE_NAME: ghcr.io/carlospagan/devops
     steps:
