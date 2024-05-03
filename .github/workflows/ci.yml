@@ -19,14 +19,17 @@ jobs:
         uses: actions/setup-python@v4
         with:
           python-version: ${{ env.PYTHON_VERSION }}
+       
+      - name: Install Python ES linters
+        run: pip install flake8
 
       - name: Set up Node.js
         uses: actions/setup-node@v1
         with:
           node-version: 20
-       
-      - name: Install Python ES linters
-        run: pip install flake8
+
+      - name: Install ESLint
+        run: npm install eslint
 
       - name: Run linters
         uses: wearerequired/lint-action@v2
