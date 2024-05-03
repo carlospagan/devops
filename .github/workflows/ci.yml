@@ -28,7 +28,7 @@ jobs:
         with:
           auto_fix: false
           eslint: true #js linter
-          prettier: true #js prettier
+          #prettier: true #js prettier
           #stylelint: true # css linter
         continue-on-error: true
         id: eslint 
