@@ -50,7 +50,7 @@ jobs:
         uses: rjstone/discord-webhook-notify@v1
         with:
             username: Octocat
-            avatarUrl: https://github.githubassets.com/images/modules/logos_page/Octocat.png
+            avatarUrl: https://octodex.github.com/images/steroidtocat.png
             severity: info
             details: CI result was successful and there is no problems with the application!
             webhookUrl: ${{ secrets.DISCORD_WEBHOOK }}
@@ -60,7 +60,7 @@ jobs:
         uses: rjstone/discord-webhook-notify@v1
         with:
             username: Octocat
-            avatarUrl: https://github.githubassets.com/images/modules/logos_page/Octocat.png
+            avatarUrl: https://octodex.github.com/images/steroidtocat.png
             severity: error
             details: CI result has failed, come and check what happened!
             webhookUrl: ${{ secrets.DISCORD_WEBHOOK }}
