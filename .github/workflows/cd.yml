@@ -34,8 +34,9 @@ jobs:
       - name: Docker Push Latest
         run: docker push $IMAGE_NAME:latest
    
-  run-application:
+  run-application-and-scan:
     runs-on: ubuntu-latest
+    needs: deploy
     permissions:
       contents: "read"
       id-token: "write"
@@ -60,15 +61,12 @@ jobs:
         run: docker run -d -p 80:80 ghcr.io/carlospagan/devops:latest
         
       - name: Expose the webapplication
-        run: ngrok http 80 --domain=free-direct-walrus.ngrok-free.app
+        run: ngrok http 80 --domain=free-direct-walrus.ngrok-free.app &
 
-  zap_scan:
-    runs-on: ubuntu-latest
-    needs: run-application
-    steps:
-      - name: Scan the webapplication
+      - name: Wait for the application to start
+        run: sleep 10
+        
+      - name: Scan the webapplication using ZAP
         uses: zaproxy/action-full-scan@v0.10.0
         with:
           target: 'http://free-direct-walrus.ngrok-free.app'
-
-
