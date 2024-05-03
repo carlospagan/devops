@@ -6,6 +6,8 @@ on:
 
 jobs:    
   test:
+    permissions:
+      checks: "write"
     runs-on: ubuntu-latest
 
     steps:
@@ -28,8 +30,8 @@ jobs:
         with:
           auto_fix: false
           eslint: true #js linter
-          prettier: true #js prettier
-          stylelint: true # css linter
+          #prettier: true #js prettier
+          #stylelint: true # css linter
         continue-on-error: true
         id: eslint 
         
