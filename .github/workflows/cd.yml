@@ -44,7 +44,7 @@ jobs:
         uses: actions/checkout@v2
       
       - name: Run container
-        run: docker run -it -e NGROK_AUTHTOKEN=${{ secrets.NGROK_AUTHTOKEN}} ngrok/ngrok http 80 --domain=free-direct-walrus.ngrok-free.app
+        run: docker run -e NGROK_AUTHTOKEN=${{ secrets.NGROK_AUTHTOKEN}} ngrok/ngrok http 80 --domain=free-direct-walrus.ngrok-free.app
 
   zap_scan:
     runs-on: ubuntu-latest
