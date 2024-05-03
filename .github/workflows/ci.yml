@@ -2,10 +2,7 @@ name: Continuous Integration using SAST
 
 on:
   pull_request :
-    branches: ["main"]
-
-env:
-  PYTHON_VERSION: '3.9'             
+    branches: ["main"]     
 
 jobs:    
   test:
@@ -14,15 +11,7 @@ jobs:
     steps:
       - name: Checkout GitHub Action
         uses: actions/checkout@v3
-
-      - name: Setup Python ${{ env.PYTHON_VERSION }} Environment
-        uses: actions/setup-python@v4
-        with:
-          python-version: ${{ env.PYTHON_VERSION }}
        
-      - name: Install Python ES linters
-        run: pip install flake8
-
       - name: Set up Node.js
         uses: actions/setup-node@v1
         with:
@@ -32,18 +21,14 @@ jobs:
         run: npm install eslint@8
 
       - name: Install Stylelint
-        run: npm install stylelint
-
-      - name: Install Stylelint Config Standard
-        run: npm install stylelint-config-standard
+        run: npm install stylelint stylelint-config-standard
 
       - name: Run linters
         uses: wearerequired/lint-action@v2
         with:
           auto_fix: false
-          flake8: true #python linter
           eslint: true #js linter
-          prettier: true #js
+          prettier: true #js prettier
           stylelint: true # css linter
         continue-on-error: true
         id: eslint 
