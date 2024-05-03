@@ -1,0 +1,50 @@
+name: Continuous Integration using SAST
+
+on:
+  pull_request :
+    branches: ["main"]
+
+env:
+  PYTHON_VERSION: '3.9'             
+
+jobs:    
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout GitHub Action
+        uses: actions/checkout@v3
+
+      - name: Setup Python ${{ env.PYTHON_VERSION }} Environment
+        uses: actions/setup-python@v4
+        with:
+          python-version: ${{ env.PYTHON_VERSION }}
+       
+      - name: Install Python ES linters
+        run: pip install black flake8
+
+      - name: Run linters
+        uses: wearerequired/lint-action@v2
+        with:
+          black: true
+          flake8: true
+        id: eslint  
+
+      - name: Notify Success
+        if: steps.eslint.outcome == 'success'
+        uses: rjstone/discord-webhook-notify@v1
+        with:
+            username: Octocat
+            avatarUrl: https://github.githubassets.com/images/modules/logos_page/Octocat.png
+            severity: info
+            details: CI result was successful and there is no problems with the application!
+            webhookUrl: ${{ secrets.DISCORD_WEBHOOK }}
+
+      - name: Notify Error
+        if: steps.eslint.outcome == 'failure'
+        uses: rjstone/discord-webhook-notify@v1
+        with:
+            username: Octocat
+            avatarUrl: https://github.githubassets.com/images/modules/logos_page/Octocat.png
+            severity: error
+            details: CI result has failed, come and check what happened!
+            webhookUrl: ${{ secrets.DISCORD_WEBHOOK }}
