@@ -6,6 +6,8 @@ on:
 
 jobs:    
   test:
+    permissions:
+      checks: "write"
     runs-on: ubuntu-latest
 
     steps:
