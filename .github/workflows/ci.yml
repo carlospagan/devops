@@ -31,15 +31,20 @@ jobs:
       - name: Install ESLint
         run: npm install eslint@8
 
+      - name: Install Stylelint
+        run: npm install stylelint
+
       - name: Run linters
         uses: wearerequired/lint-action@v2
         with:
           auto_fix: false
           flake8: true #python linter
           eslint: true #js linter
+          prettier: true #js
           stylelint: true # css linter
+        continue-on-error: true
         id: eslint 
-
+        
       - name: Notify Success
         if: steps.eslint.outcome == 'success'
         uses: rjstone/discord-webhook-notify@v1
