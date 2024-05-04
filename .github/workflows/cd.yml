@@ -6,7 +6,7 @@ on:
 
 jobs:
 
-  deploy:
+  build:
     runs-on: ubuntu-latest
     permissions:
       contents: "read"
@@ -34,9 +34,9 @@ jobs:
       - name: Docker Push Latest
         run: docker push $IMAGE_NAME:latest
    
-  run-application-and-scan:
+  deploy-application-and-scan:
     runs-on: ubuntu-latest
-    needs: deploy
+    needs: build
     permissions:
       contents: "read"
       id-token: "write"
